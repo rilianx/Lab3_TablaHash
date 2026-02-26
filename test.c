@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "hashmap.c"
 
 
@@ -433,13 +434,21 @@ int enlarge_test(){
     enlarge(map);
 
     if(map->buckets[0]->value!=value3 || map->buckets[2]!=NULL || map->buckets[12]->value != value5 || map->buckets[4]->value!=value4){
-        sprintf(msg,"enlarged table is:\n");
-        for(i=0;i<map->capacity;i++){
-            if(map->buckets[i]==NULL) sprintf(msg,"%.100s(null)  ",msg);
-            else sprintf(msg,"%.100s%s  ", msg, (char*)map->buckets[i]->value);
+        // 1. Guardamos cuántos caracteres escribimos inicialmente
+        int offset = sprintf(msg, "enlarged table is:\n");
+
+        // 2. Sumamos al offset en cada iteración escribiendo a partir de msg + offset
+        for(i = 0; i < map->capacity; i++){
+            if(map->buckets[i] == NULL) {
+                offset += sprintf(msg + offset, "(null)  ");
+            } else {
+                offset += sprintf(msg + offset, "%s  ", (char*)map->buckets[i]->value);
+            }
         }   
 
-        sprintf(msg,"%.100s\nbut should be: \nvalue3  (null)  (null)  (null)  value4  (null)  value2  value1  value0  (null)  (null)  (null)  value5  (null)  (null)  (null)  (null)  (null)  (null)  (null)",msg);
+        // 3. Escribimos el final de la cadena
+        sprintf(msg + offset, "\nbut should be: \nvalue3  (null)  (null)  (null)  value4  (null)  value2  value1  value0  (null)  (null)  (null)  value5  (null)  (null)  (null)  (null)  (null)  (null)  (null)");
+
         err_msg(msg);
         return 0;
     }
@@ -452,31 +461,31 @@ int enlarge_test(){
 // --- AGRUPACIÓN DE PRUEBAS (SUITES) ---
 
 int test_create() {
-    return createMap_test1() && createMap_test2() && createMap_test3();
+    return (createMap_test1() && createMap_test2() && createMap_test3())*5;
 }
 
 int test_insert_1() {
-    return insert_test1() && insert_test2();
+    return (insert_test1() && insert_test2())*5;
 }
 
 int test_insert_2() {
-    return insert_test3() && insert_test4();
+    return (insert_test3() && insert_test4())*10;
 }
 
 int test_search() {
-    return search_test1() && search_test2() && search_test3();
+    return (search_test1() && search_test2() && search_test3())*10;
 }
 
 int test_erase() {
-    return erase_test1() && erase_test2() && erase_test3();
+    return (erase_test1() && erase_test2() && erase_test3())*10;
 }
 
 int test_first_next() {
-    return first_test() && next_test();
+    return (first_test() && next_test())*10;
 }
 
 int test_enlarge() {
-    return enlarge_test();
+    return enlarge_test()*10;
 }
 
 
