@@ -24,8 +24,9 @@ Implementando un Mapa (HashMap)
    ```bash
    bash test.sh
    ```
-
-6. Al finalizar, adjunte en el aula virtual:
+6. Debe ejecutar los tests **luego de terminar cada ejercicio**.
+ 
+7. Al finalizar, adjunte en el aula virtual:
 
    * La URL de su repositorio GitHub (con los cambios actualizados).
    * El *join link* de su proyecto en Replit.
